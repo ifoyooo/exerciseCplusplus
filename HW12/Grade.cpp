@@ -139,6 +139,14 @@ void saveLowerAverage(const vector<Grade *> & grades)
 }
 void addMakeUp(vector<Grade *>&grades)
 {
+/*测试样例
+6 guagua 0 10
+7 lala  1 20
+8 sisi 0 30
+9 sasa 1 40
+10 tutu 0 50
+
+*/
     int num=0;
     cin>>num;
     for (int i=0;i<num;i++)
