@@ -4,7 +4,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "g++",
+            "command": "gcc",
             "args": [
                 "${file}",
                 "-o",
@@ -12,7 +12,7 @@
                 "-g",
                 "-Wall",
                 "-static-libgcc",
-                "-std=c++11"
+                "-std=c11"
             ],
             "group": "build",
             "presentation": {
@@ -42,9 +42,11 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe 生成活动文件",
-            "command": "D:\\Microsoft Visual Studio\\Dev-Cpp\\MinGW64\\bin\\g++.exe",
+            "command": "g++",
             "args": [
-                "-g",
+                // "-g",
+                "-std=c++11",
+                "-Wall",
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"

@@ -35,6 +35,11 @@ class Grade
     {
         return sex;
     }
+    void setGrade(int g)
+    {
+        grade=g;
+        return ;
+    }
     friend istream &operator>>(istream &input,Grade &gd)
     {
         input>>gd.id;
@@ -87,6 +92,7 @@ void init()
 }
 void saveTop3(vector<Grade*>);
 void saveLowerAverage(const vector<Grade *> & grades);
+void addMakeUp(vector<Grade *>&grades);
 void change()
 {
     vector<Grade*> grades;
@@ -100,7 +106,12 @@ void change()
     }
     in.close();    
     //不改变原来的vector。
+    cout<<"Test1"<<endl;
     saveTop3(grades);
+    cout<<"Test2"<<endl;
+    saveLowerAverage(grades);
+    cout<<"Test3"<<endl;
+    addMakeUp(grades);
 }
 void saveTop3(vector<Grade*> grades)
 {
@@ -108,17 +119,38 @@ void saveTop3(vector<Grade*> grades)
     ofstream out("b.dat",ios::binary|ios::out);
     for_each(grades.begin(),grades.begin()+3,[&out](Grade *gd)->void {out.write((char*)gd,sizeof(Grade));});
     for_each(grades.begin(),grades.begin()+3,[](Grade *gd)->void{cout<<*gd;});
+    out.close();
 }
 void saveLowerAverage(const vector<Grade *> & grades)
 {
     vector<Grade *>mg,fg;
+
     copy_if(grades.begin(),grades.end(),back_inserter(mg),[](Grade *gd)->bool{return gd->getGender()==Male;});
     copy_if(grades.begin(),grades.end(),back_inserter(fg),[](Grade *gd)->bool{return gd->getGender()==Female;});
-    int mgave=accumulate(mg.begin(),mg.end(),0,)
+    int mgave=accumulate(mg.begin(),mg.end(),0,[](double partial, Grade *gd)->double{return partial+gd->getGrade();})/(double)mg.size();
+    int fgave=accumulate(fg.begin(),fg.end(),0,[](double partial , Grade*gd)->double{return partial+gd->getGrade();})/(double)fg.size();
+    
+    ofstream out("c.dat",ios::binary|ios::out);
+    for_each(mg.begin(),mg.end(),[&out,mgave](Grade *gd)->void{if (gd->getGrade()<mgave) out.write((char*)gd,sizeof(Grade));});
+    for_each(fg.begin(),fg.end(),[&out,fgave](Grade *gd)->void{if (gd->getGrade()<fgave) out.write((char*)gd,sizeof(Grade));});
+    out.close();
+    for_each(mg.begin(),mg.end(),[mgave](Grade *gd)->void{if (gd->getGrade()<mgave)cout<<*gd;});
+    for_each(fg.begin(),fg.end(),[fgave](Grade *gd)->void{if (gd->getGrade()<fgave)cout<<*gd;});
 }
-void addMakeUp()
+void addMakeUp(vector<Grade *>&grades)
 {
-
+    int num=0;
+    cin>>num;
+    for (int i=0;i<num;i++)
+    {
+        Grade *newgrade=new Grade;
+        cin>>*newgrade;
+        newgrade->setGrade(newgrade->getGrade()*0.9);
+        grades.push_back(newgrade);
+    }
+    ofstream out("a.dat",ios::out|ios::binary);
+    for_each(grades.begin(),grades.end(),[&out](Grade *gd)->void {out.write((char*)gd,sizeof(Grade));});
+    for_each(grades.begin(),grades.end(),[](Grade *gd)->void{cout<<*gd;});
 }
 
 //想要STL不报错，就要重写c_cpp_properties

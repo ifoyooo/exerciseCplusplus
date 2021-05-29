@@ -13,6 +13,7 @@
             "compilerPath": "D:\\Microsoft Visual Studio\\Dev-Cpp\\MinGW64\\bin\\gcc.exe",
             "cStandard": "c89",
             // "cppStandard": "gnu++98",
+            // "cppStandard": "gnu++11",
             "cppStandard": "c++11",
             "intelliSenseMode": "windows-gcc-x64"
         }
