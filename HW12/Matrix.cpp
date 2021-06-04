@@ -196,14 +196,23 @@ public:
         }
     }
     //赋值操作
-    Matrix &operator=(const Matrix &m)
+    // Matrix &operator=(const Matrix &m)
+    // {
+    //     colNum = m.colNum;
+    //     rowNum = m.rowNum;
+    //     delete []data;
+    //     data = new T[colNum * rowNum];
+    //     memcpy(data, m.data, sizeof(T) * colNum * rowNum);
+    //     return *this;
+    // }
+    Matrix &operator=(const Matrix<T> &m)
     {
         colNum = m.colNum;
         rowNum = m.rowNum;
-        delete data;
+        delete []data;
         data = new T[colNum * rowNum];
         memcpy(data, m.data, sizeof(T) * colNum * rowNum);
-        return *this;
+        return *this;        
     }
 
     //实现矩阵类
@@ -339,7 +348,10 @@ void testMatrix()
     // return;
     Matrix<Complex> m;
     cin >> m;
-    cout << m;
+    Matrix<Complex> m1;
+    // m1=m;
+    // cout<<m1;
+    // cout << m;
 }
 void testMatrixFile()
 {
@@ -354,6 +366,8 @@ void testMatrixFile()
 int main()
 {
     // testComplex();
-    // testMatrix();
-    testMatrixFile();
+    testMatrix();
+    // testMatrixFile();
 }
+//这里有一个很重要的问题，即我们在编写类属类的方法的时候要不要给类实例化呢？
+//经过测试，类内既可以实例化也可以不实例化，但是类外定义的则需要实例化。

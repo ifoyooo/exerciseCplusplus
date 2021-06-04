@@ -5,6 +5,7 @@ assignments of nju2021 advanced programming(spring).
 
 contents of these assignments include most of basic c++ knowledge and are good practices for c++ beginners.
 
+for more detials, please check the specific folders with prefix "HW". 
 ```powershell
 D:.
 │   .gitignore
